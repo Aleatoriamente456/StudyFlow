@@ -1,0 +1,412 @@
+/* RESET E BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f7f8fc;
+    color: #202b46;
+    min-height: 100vh;
+}
+
+/* CABEÇALHO */
+.header {
+    width: 100%;
+    padding: 22px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.menu-button {
+    border: none;
+    background: transparent;
+    font-size: 25px;
+    color: #444;
+    cursor: pointer;
+}
+
+.header-wordmark {
+    font-size: 22px;
+    font-weight: 700;
+    color: #202b46;
+}
+
+.header-wordmark span {
+    color: #7138d4;
+}
+
+.profile-button {
+    width: 34px;
+    height: 34px;
+    padding: 5px;
+    border: none;
+    border-radius: 50%;
+    background-color: #7138d4;
+    cursor: pointer;
+}
+
+.profile-button svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: white;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+/* LAYOUT */
+.preferences-container {
+    width: 90%;
+    max-width: 1100px;
+    min-height: calc(100vh - 80px);
+    margin: 35px auto 0;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: start;
+    position: relative;
+    padding-bottom: 90px;
+}
+
+/* LADO ESQUERDO */
+.preferences-info {
+    min-height: 430px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.preferences-info h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 55px;
+}
+
+.preferences-info h1 span {
+    display: block;
+    color: #7138d4;
+}
+
+.preferences-info p {
+    font-size: 16px;
+    color: #707b92;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+.brand-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-top: auto;
+}
+
+/* CARTÃO */
+.preferences-card {
+    background-color: #fff;
+    border: 1px solid #e3e6ef;
+    border-radius: 15px;
+    width: 100%;
+    min-height: 263px;
+    padding: 22px 20px;
+    box-shadow: 0 5px 18px rgba(30, 40, 70, 0.04);
+}
+
+/* ETAPAS */
+.step {
+    display: none;
+    animation: aparecer 0.25s ease;
+}
+
+.step.active {
+    display: block;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.field-label {
+    display: block;
+    color: #707b92;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+#goals {
+    width: 100%;
+    height: 205px;
+    resize: vertical;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    color: #202b46;
+}
+
+#goals::placeholder {
+    color: #b2b8c5;
+}
+
+/* TÍTULOS DOS CARTÕES */
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.card-title span {
+    color: #7138d4;
+}
+
+/* OPÇÕES */
+.option {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.option span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 36px;
+    padding: 5px 8px;
+    background-color: #f0ecf8;
+    border: 1px solid #e5def1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #35415c;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.option:hover span {
+    border-color: #7138d4;
+}
+
+.option input:checked + span {
+    background-color: #7138d4;
+    border-color: #7138d4;
+    color: #fff;
+}
+
+.option input:focus-visible + span {
+    outline: 2px solid #9c73e7;
+    outline-offset: 2px;
+}
+
+/* DIAS */
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px 12px;
+}
+
+/* HORÁRIOS */
+.time-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 18px;
+    padding-top: 10px;
+}
+
+.time-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 42%;
+}
+
+.time-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #35415c;
+}
+
+.time-field input {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #dfe2e9;
+    border-radius: 7px;
+    background: white;
+    padding: 0 8px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+}
+
+.time-field input:focus {
+    border-color: #7138d4;
+}
+
+.time-separator {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 11px;
+}
+
+/* METODOLOGIAS */
+.methods-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.method-option {
+    width: min(65%, 260px);
+}
+
+.method-option span {
+    min-height: 44px;
+}
+
+/* MATÉRIAS */
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 11px 12px;
+}
+
+.subjects-grid .option span {
+    min-height: 35px;
+}
+
+/* NAVEGAÇÃO */
+.navigation-buttons {
+    position: absolute;
+    right: 0;
+    bottom: 25px;
+    display: flex;
+    gap: 9px;
+}
+
+.next-button,
+.back-button {
+    width: 44px;
+    height: 44px;
+    background-color: #7138d4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.back-button {
+    display: none;
+}
+
+.next-button:hover,
+.back-button:hover {
+    background-color: #5e2bb7;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVO */
+@media (max-width: 750px) {
+    .header {
+        padding: 20px 5%;
+    }
+
+    .preferences-container {
+        width: 90%;
+        margin-top: 25px;
+        grid-template-columns: 1fr;
+        gap: 22px;
+        min-height: auto;
+        padding-bottom: 85px;
+    }
+
+    .preferences-info {
+        min-height: auto;
+    }
+
+    .preferences-info h1 {
+        font-size: 26px;
+        margin-bottom: 15px;
+    }
+
+    .preferences-info p {
+        max-width: 100%;
+    }
+
+    .brand-logo {
+        display: none;
+    }
+
+    .preferences-card {
+        min-height: 250px;
+        padding: 20px 16px;
+    }
+
+    #goals {
+        height: 190px;
+    }
+
+    .time-container {
+        gap: 12px;
+    }
+
+    .time-field {
+        width: 43%;
+    }
+
+    .method-option {
+        width: 80%;
+    }
+
+    .navigation-buttons {
+        bottom: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    .days-grid,
+    .subjects-grid {
+        gap: 9px 7px;
+    }
+
+    .subjects-grid .option span {
+        font-size: 12px;
+        padding: 5px 3px;
+    }
+
+    .card-title {
+        font-size: 14px;
+    }
+}
