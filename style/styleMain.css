@@ -1,0 +1,1525 @@
+/* =========================================================
+   1. CONFIGURAÇÕES GERAIS
+   ========================================================= */
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: hsl(228, 25%, 92%);
+    flex-direction: column;
+}
+
+#popup {
+    display: none;
+    padding: 8px;
+    font-size: 14px;
+    width: 20%;
+    height: auto;
+    min-height: 100px;
+    position: absolute;
+    left: 15%;
+    background-color: #ede9ee;
+    border: none;
+    border-radius: 5px;
+    border-width: 1px;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 2px 1px #7e7e7e;
+}
+
+/* =========================================================
+   2. CABEÇALHO PADRÃO
+   ========================================================= */
+
+.header {
+    width: 100%;
+    padding: 30px 7%;
+    border-radius: 0 0 15px 15px;
+    background-color: #f7f8fc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-width: 0;
+}
+
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: #3a3c46;
+    cursor: pointer;
+    padding: 6px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.menu-btn:hover {
+    background: var(--color-primary-soft);
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo-text span {
+    color: var(--color-primary-accent);
+}
+
+/* =========================================================
+   3. CONTEÚDO PRINCIPAL E TIPOGRAFIA
+   ========================================================= */
+
+.main-content {
+    width: min(84%, 1200px);
+    margin: 35px auto 0;
+}
+
+.main-content.split-layout {
+    width: min(90%, 1300px);
+    margin: 40px auto 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 45px;
+}
+
+.main-text {
+    min-width: 0;
+}
+
+.main-text h1,
+.main-text h3 {
+    font-size: clamp(25px, 2.5vw, 34px);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.split-layout .main-text h1 {
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.main-text h1 span,
+.main-text span {
+    color: var(--color-primary);
+}
+
+.main-text p {
+    color: var(--color-text-muted);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.split-layout .main-text p {
+    font-size: 15px;
+}
+
+/* =========================================================
+   4. CARDS E CONTAINERS
+   ========================================================= */
+
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 43px;
+    min-height: 210px;
+    box-shadow: 0 5px 18px rgba(30, 40, 70, 0.04);
+}
+
+.split-layout .card {
+    margin-top: 0;
+    padding: 32px;
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card.no-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    min-height: unset;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.user-icon {
+    background-color: #f0e7fa;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+.user-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.card-title h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.card-title h3 span {
+    color: var(--color-primary);
+}
+
+.description {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.register-text {
+    color: #858585;
+    font-size: 14px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.rotina {
+    margin-top: 30px;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-surface);
+    border-radius: 10px;
+    min-height: 210px;
+}
+
+.rotina h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.rotina span {
+    color: var(--color-primary-accent);
+}
+
+/* =========================================================
+   5. BOTÕES CONTEXTUAIS
+   ========================================================= */
+
+.split-layout .button {
+    width: auto;
+    min-height: 40px;
+    padding: 0 22px;
+    font-size: 14px;
+    border-radius: 8px;
+    margin-top: 0;
+}
+
+/* =========================================================
+   6. TELA DE PREFERÊNCIAS
+   ========================================================= */
+
+.left-column {
+    flex: 0 1 38%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-column {
+    flex: 1 1 62%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+}
+
+.screen.active {
+    display: block;
+}
+
+.card-subtitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: var(--color-text-main);
+}
+
+.card-subtitle span {
+    color: var(--color-primary);
+}
+
+/* Opções em pílula */
+
+.option-pill {
+    cursor: pointer;
+    display: block;
+}
+
+.option-pill input {
+    display: none;
+}
+
+.option-pill span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary-soft);
+    color: var(--color-text-main);
+    font-size: 14px;
+    font-weight: bold;
+    padding: 14px 10px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: 0.2s;
+    text-align: center;
+    min-height: 48px;
+}
+
+.option-pill span:hover {
+    background-color: #e3d8f7;
+}
+
+.option-pill input:checked + span {
+    background-color: #dfd2f7;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* Grids */
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+}
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px 18px;
+}
+
+/* Horários */
+
+.time-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.time-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.time-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--color-text-main);
+}
+
+.time-group input {
+    width: 100%;
+    height: 44px;
+    padding: 0 10px;
+    border: 1px solid #d8dce5;
+    border-radius: 8px;
+    font-size: 15px;
+    text-align: center;
+    outline: none;
+}
+
+.time-group input:focus {
+    border-color: var(--color-primary);
+}
+
+.time-sep {
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 13px;
+}
+
+/* Textarea */
+
+textarea {
+    width: 100%;
+    min-height: 250px;
+    border: none;
+    resize: vertical;
+    font-family: var(--font-base);
+    font-size: 14px;
+    color: var(--color-text-main);
+    outline: none;
+    padding: 5px;
+}
+
+textarea::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Métodos */
+
+.methods-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.method-pill {
+    width: 100%;
+    max-width: 260px;
+}
+
+/* Arquivos */
+
+.files-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.files-list:empty {
+    display: none;
+}
+
+.file-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.file-icon {
+    width: 42px;
+    height: 42px;
+    background-color: #f0e7fa;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.file-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.file-info strong {
+    font-size: 14px;
+    color: var(--color-text-main);
+    overflow-wrap: anywhere;
+}
+
+.file-info span {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+.remove-file {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #858585;
+    cursor: pointer;
+    padding: 4px 8px;
+    flex-shrink: 0;
+}
+
+.remove-file:hover {
+    color: var(--color-danger);
+}
+
+/* Barra de navegação */
+
+.actions-bar {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 14px;
+}
+
+/* =========================================================
+   7. RODAPÉ PADRÃO
+   ========================================================= */
+
+.footer {
+    margin-top: auto;
+    width: 100%;
+    padding: 35px 7% 28px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+}
+
+.footer-icon {
+    width: 65px;
+    height: auto;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 7px;
+    cursor: pointer;
+    transition: background 0.25s;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.footer-icon:hover {
+    background-color: #8b44eebe;
+}
+
+.footer-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.footer-logo {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    max-width: 45%;
+}
+
+.footer-logo img {
+    width: 250px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* =========================================================
+   8. RESPONSIVIDADE PARA NOTEBOOKS
+   ========================================================= */
+
+@media (max-width: 1024px) {
+    .main-content {
+        width: 90%;
+    }
+
+    .main-content.split-layout {
+        width: 92%;
+        gap: 25px;
+    }
+
+    .split-layout .card {
+        padding: 24px;
+    }
+
+    .left-column {
+        flex-basis: 40%;
+    }
+
+    .right-column {
+        flex-basis: 60%;
+    }
+
+    .subjects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-logo {
+        max-width: 40%;
+    }
+
+    .footer-logo img {
+        width: 200px;
+    }
+}
+
+/* =========================================================
+   9. RESPONSIVIDADE PARA TABLETS
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .header {
+        padding: 22px 5%;
+    }
+
+    .main-content {
+        width: 90%;
+        margin-top: 30px;
+    }
+
+    .main-content.split-layout {
+        width: 90%;
+        margin: 28px auto 40px;
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+
+    .split-layout .card {
+        padding: 24px;
+        min-height: unset;
+    }
+
+    .main-text h1,
+    .main-text h3 {
+        font-size: 28px;
+    }
+
+    .subjects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .time-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .time-sep {
+        text-align: center;
+        padding: 0;
+    }
+
+    .nav-buttons {
+        width: 100%;
+    }
+
+    .nav-buttons .button {
+        flex: 1;
+    }
+
+    .actions-bar {
+        align-items: stretch;
+    }
+
+    .footer {
+        padding: 25px 5%;
+    }
+
+    .footer-icon {
+        width: 55px;
+    }
+
+    .footer-logo {
+        max-width: 38%;
+        bottom: 25px;
+    }
+
+    .footer-logo img {
+        width: 170px;
+    }
+}
+
+/* =========================================================
+   10. RESPONSIVIDADE PARA CELULARES
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .header {
+        padding: 18px 5%;
+    }
+
+    .header-left {
+        gap: 15px;
+    }
+
+    .logo-text {
+        font-size: 19px;
+    }
+
+    .profile-button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .main-content {
+        width: 90%;
+        margin-top: 30px;
+    }
+
+    .main-content.split-layout {
+        width: 90%;
+        margin-top: 25px;
+        gap: 22px;
+    }
+
+    .main-text h1,
+    .main-text h3 {
+        font-size: 25px;
+    }
+
+    .main-text p {
+        font-size: 14px;
+    }
+
+    .card {
+        margin-top: 25px;
+        padding: 18px;
+    }
+
+    .split-layout .card {
+        padding: 18px;
+    }
+
+    .card-title {
+        gap: 10px;
+    }
+
+    .card-title h3 {
+        font-size: 15px;
+    }
+
+    .description,
+    .register-text {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .button {
+        width: 100%;
+        min-height: 44px;
+        font-size: 14px;
+    }
+
+    .split-layout .button {
+        width: 100%;
+    }
+
+    .subjects-grid,
+    .days-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .option-pill span {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .time-group input {
+        height: 46px;
+    }
+
+    textarea {
+        min-height: 180px;
+    }
+
+    .file-card {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .file-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .file-info strong {
+        font-size: 12px;
+    }
+
+    .file-info span {
+        font-size: 11px;
+    }
+
+    .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .actions-bar {
+        width: 100%;
+    }
+
+    .footer {
+        padding: 22px 5%;
+        gap: 10px;
+        align-items: center;
+        min-height: 110px;
+    }
+
+    .footer-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .footer-logo {
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        width: 38%;
+        max-width: 145px;
+    }
+
+    .footer-logo img {
+        width: 100%;
+        max-width: 145px;
+    }
+}
+
+/* =========================================================
+   11. CELULARES MUITO PEQUENOS
+   ========================================================= */
+
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 17px;
+    }
+
+    .header-left {
+        gap: 9px;
+    }
+
+    .main-text h1,
+    .main-text h3 {
+        font-size: 22px;
+    }
+
+    .split-layout .card {
+        padding: 14px;
+    }
+
+    .footer {
+        min-height: 100px;
+    }
+
+    .footer-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .footer-logo {
+        width: 36%;
+        max-width: 120px;
+        bottom: 20px;
+    }
+
+    .footer-logo img {
+        max-width: 120px;
+    }
+
+    .nav-buttons .button {
+        font-size: 13px;
+    }
+}
+
+/* =========================================================
+   12. PERFIL DO USUÁRIO E MENU DROPDOWN (LOGOUT)
+   ========================================================= */
+
+.profile-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.profile-button {
+    position: relative;
+    background-color: var(--color-primary);
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.profile-button svg {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-button:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.profile-button:active {
+    transform: scale(0.96);
+}
+
+.profile-online-badge {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-success);
+    border: 2px solid var(--color-surface);
+    border-radius: 50%;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    width: 320px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(32, 43, 70, 0.15);
+    padding: 20px;
+    z-index: 1000;
+    animation: profileFadeIn 0.22s ease-out;
+}
+
+@keyframes profileFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-dropdown[hidden] {
+    display: none !important;
+}
+
+.profile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.profile-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9135d4, var(--color-primary));
+    color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: bold;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(113, 56, 212, 0.25);
+    letter-spacing: 0.5px;
+}
+
+.profile-avatar.visitor {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    box-shadow: none;
+}
+
+.profile-avatar.visitor svg {
+    width: 26px;
+    height: 26px;
+}
+
+.profile-user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--color-text-main);
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-email {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.profile-divider {
+    height: 1px;
+    background-color: #eef1f6;
+    border: none;
+    margin: 12px 0;
+}
+
+.profile-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.profile-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
+
+.profile-detail-label {
+    color: var(--color-text-muted);
+}
+
+.profile-detail-value {
+    font-weight: bold;
+    color: var(--color-text-main);
+}
+
+.profile-status-online {
+    color: var(--color-success);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.profile-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-success);
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #f7f8fc;
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+    transition: 0.15s;
+}
+
+.profile-link-btn:hover {
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+    border-color: var(--color-primary-border);
+}
+
+.profile-link-btn svg {
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #fff1f1;
+    color: var(--color-danger);
+    border: 1px solid #fbd5d5;
+    transition: 0.15s;
+}
+
+.logout-btn:hover {
+    background-color: var(--color-danger);
+    color: var(--color-surface);
+    border-color: var(--color-danger);
+}
+
+.logout-btn svg {
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.profile-visitor-msg {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.profile-visitor-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-visitor-buttons .button {
+    font-size: 13px;
+    min-height: 38px;
+    padding: 6px 10px;
+}
+
+@media (max-width: 600px) {
+    .profile-dropdown {
+        position: fixed;
+        top: 75px;
+        left: 5%;
+        right: 5%;
+        width: 90%;
+        max-width: 330px;
+        margin: 0 auto;
+    }
+}
+
+/* =========================================================
+   13. TELA DE ROTINA ATIVA (APÓS PREFERÊNCIAS)
+   ========================================================= */
+
+.routine-wrapper {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.routine-wrapper .main-text {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.card.routine-card-container {
+    width: 100%;
+    max-width: 960px;
+    margin-top: 0;
+    padding: 32px 36px;
+    border-radius: 20px;
+    background: var(--color-surface);
+    box-shadow: 0 8px 28px rgba(34, 24, 68, 0.06);
+}
+
+.routine-header-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: #f1edfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.routine-header-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.routine-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 24px;
+    margin-bottom: 28px;
+}
+
+.routine-item-card {
+    background-color: #f1edfa;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.routine-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(113, 56, 212, 0.12);
+}
+
+.routine-item-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background-color: #e6dff7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.routine-item-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.routine-item-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 1.3;
+    min-width: 0;
+}
+
+.routine-item-day {
+    font-size: 0.72rem;
+    color: #6b6878;
+    font-weight: 500;
+}
+
+.routine-item-time {
+    font-size: 0.78rem;
+    color: #3d3a4b;
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.routine-item-subject {
+    font-size: 1.05rem;
+    color: #242132;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.routine-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.button.routine-clear-btn {
+    width: auto;
+    min-width: 170px;
+    margin-top: 0;
+    text-align: center;
+    padding: 12px 22px;
+    border-radius: 10px;
+}
+
+.button.routine-full-btn {
+    width: auto;
+    min-width: 240px;
+    margin-top: 0;
+    text-align: center;
+    padding: 12px 28px;
+    border-radius: 10px;
+}
+
+@media (max-width: 820px) {
+    .routine-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .routine-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button.routine-clear-btn,
+    .button.routine-full-btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   14. TELA DE ROTINA COMPLETA (GRADE SEMANAL)
+   ========================================================= */
+
+.full-routine-main {
+    width: min(88%, 1120px);
+    margin: 36px auto 0;
+}
+
+.full-routine-header {
+    margin-bottom: 24px;
+}
+
+.full-routine-header h1 {
+    font-size: clamp(26px, 2.8vw, 34px);
+    color: var(--color-text-main);
+}
+
+.full-routine-header p {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.routine-matrix-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(30, 40, 70, 0.05);
+    overflow: hidden;
+}
+
+.routine-matrix-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.routine-matrix-table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.routine-matrix-table thead th {
+    padding: 14px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: #4b5568;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e5e8f0;
+    border-right: 1px solid #e5e8f0;
+    background-color: var(--color-surface);
+}
+
+.routine-matrix-table thead th:last-child {
+    border-right: none;
+}
+
+.routine-matrix-table tbody td {
+    height: 82px;
+    padding: 8px;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid #e5e8f0;
+    border-right: 1px solid #e5e8f0;
+    background-color: var(--color-surface);
+}
+
+.routine-matrix-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.routine-matrix-table tbody td:last-child {
+    border-right: none;
+}
+
+.routine-slot-btn {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 10px;
+    padding: 4px;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.routine-slot-btn:hover {
+    background-color: #f7f4fd;
+    transform: translateY(-1px);
+}
+
+.routine-slot-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: var(--color-primary-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.routine-slot-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.routine-slot-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5b6275;
+    line-height: 1.1;
+}
+
+.routine-slot-empty {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+}
+
+.routine-slot-empty:hover {
+    background-color: #f5f3fa;
+}
+
+.full-routine-actions {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.button.full-routine-back-btn {
+    width: auto;
+    min-width: 245px;
+    margin-top: 0;
+    padding: 11px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.full-routine-footer {
+    justify-content: flex-end;
+}
+
+.slot-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(24, 28, 46, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 2000;
+}
+
+.slot-modal-backdrop[hidden] {
+    display: none;
+}
+
+.slot-modal-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--color-surface);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 16px 40px rgba(24, 28, 46, 0.22);
+}
+
+.slot-modal-card h3 {
+    font-size: 18px;
+    color: var(--color-text-main);
+    margin-bottom: 4px;
+}
+
+.slot-modal-subtitle {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+}
+
+.slot-modal-label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--color-text-main);
+    margin-bottom: 8px;
+}
+
+.slot-modal-select {
+    width: 100%;
+    height: 42px;
+    border-radius: 8px;
+    border: 1px solid #d8dce5;
+    padding: 0 12px;
+    font-size: 14px;
+    color: var(--color-text-main);
+    background: var(--color-surface);
+    margin-bottom: 20px;
+}
+
+.slot-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.slot-modal-buttons .button {
+    width: auto;
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: 13px;
+    margin-top: 0;
+}
+
+@media (max-width: 600px) {
+    .button.full-routine-back-btn {
+        width: 100%;
+    }
+}

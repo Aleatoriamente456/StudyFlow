@@ -1,0 +1,85 @@
+/* =========================================================
+   ESTILOS GLOBAIS COMPARTILHADOS - STUDYFLOW
+   ========================================================= */
+
+:root {
+    --color-primary: #7138d4;
+    --color-primary-hover: #5e2bb7;
+    --color-primary-accent: #7438d4;
+    --color-primary-soft: #eee8f9;
+    --color-primary-soft-hover: #f5efff;
+    --color-primary-border: #ddd5ed;
+    --color-text-main: #202b46;
+    --color-text-muted: #707b92;
+    --color-border: #e3e6ef;
+    --color-surface: #ffffff;
+    --color-success: #10b981;
+    --color-danger: #d43838;
+    --font-base: Arial, Helvetica, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-base);
+    color: var(--color-text-main);
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Botões base compartilhados */
+
+.buttons {
+    display: flex;
+    gap: 18px;
+}
+
+.button {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: auto;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.button[hidden] {
+    display: none;
+}
+
+.button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border: 1px solid var(--color-primary);
+}
+
+.primary:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+}
+
+.secondary {
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary-border);
+}
+
+.secondary:hover:not(:disabled) {
+    background-color: var(--color-primary-soft-hover);
+}
