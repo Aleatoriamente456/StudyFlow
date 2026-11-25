@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Rotina Personalizada - StudyFlow</title>
+    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../style/styleMain.css">
+    <script src="../script/storage.js" defer></script>
+    <script src="../script/header.js" defer></script>
+    <script src="../script/auth.js" defer></script>
+    <script src="../script/rotina.js" defer></script>
+</head>
+<body>
+
+    <header class="header" id="appHeader"></header>
+
+    <main class="main-content full-routine-main">
+
+        <div class="main-text full-routine-header">
+            <h1>Sua <span>Rotina</span> personalizada</h1>
+            <p>Cheque e altere sua rotina</p>
+        </div>
+
+        <section class="routine-matrix-card" aria-label="Grade semanal da rotina">
+            <div class="routine-matrix-scroll">
+                <table class="routine-matrix-table">
+                    <thead>
+                        <tr>
+                            <th>DOM.</th>
+                            <th>SEG.</th>
+                            <th>TER.</th>
+                            <th>QUA.</th>
+                            <th>QUI.</th>
+                            <th>SEX.</th>
+                            <th>SAB.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fullRoutineBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="full-routine-actions">
+            <a href="../index.html" class="button primary full-routine-back-btn">
+                Voltar ao início
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Modal para alterar ou limpar um bloco da grade -->
+    <div class="slot-modal-backdrop" id="slotModal" hidden>
+        <div class="slot-modal-card" role="dialog" aria-modal="true" aria-labelledby="slotModalTitle">
+            <h3 id="slotModalTitle">Alterar matéria</h3>
+            <p class="slot-modal-subtitle" id="slotModalSubtitle"></p>
+
+            <label class="slot-modal-label" for="slotSubjectSelect">Escolha uma matéria:</label>
+            <select class="slot-modal-select" id="slotSubjectSelect"></select>
+
+            <div class="slot-modal-buttons">
+                <button type="button" class="button secondary" id="slotClearBtn">Remover</button>
+                <button type="button" class="button secondary" id="slotCancelBtn">Cancelar</button>
+                <button type="button" class="button primary" id="slotSaveBtn">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer full-routine-footer">
+        <div class="footer-logo">
+            <img src="../img/LogoStudyFlow.png" alt="Logo do StudyFlow">
+        </div>
+    </footer>
+
+</body>
+</html>

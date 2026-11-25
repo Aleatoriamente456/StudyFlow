@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StudyFlow</title>
+    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../style/styleCadastro.css">
+    <script src="../script/storage.js" defer></script>
+    <script src="../script/auth.js" defer></script>
+</head>
+<body>
+
+    <main class="auth-container">
+
+        <section class="brand-panel">
+            <img src="../img/LogoStudyFlow.png" alt="Logo do StudyFlow">
+        </section>
+
+        <section class="form-panel">
+            <div class="form-content">
+                <h2>Bem-vindo de volta</h2>
+                <p class="form-subtitle">Entre para continuar seus estudos.</p>
+
+                <form id="loginForm">
+                    <input
+                        type="text"
+                        id="usuario"
+                        name="usuario"
+                        placeholder="E-mail ou usuário"
+                        autocomplete="username"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Senha"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <a href="telaCadastro.html" class="register-link">
+                        Não possui uma conta? Cadastre-se
+                    </a>
+
+                    <button type="submit" class="button primary">ENTRAR</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

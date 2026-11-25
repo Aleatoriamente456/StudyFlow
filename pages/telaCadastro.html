@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - StudyFlow</title>
+    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../style/styleCadastro.css">
+    <script src="../script/storage.js" defer></script>
+    <script src="../script/auth.js" defer></script>
+</head>
+<body>
+
+    <main class="auth-container">
+
+        <!-- Painel da marca -->
+        <section class="brand-panel">
+            <img src="../img/LogoStudyFlow.png" alt="Logo do StudyFlow">
+        </section>
+
+        <!-- Formulário de cadastro -->
+        <section class="form-panel">
+
+            <div class="form-content">
+
+                <h2>Crie sua conta</h2>
+
+                <p class="form-subtitle">
+                    Comece a organizar sua rotina de estudos.
+                </p>
+
+                <form id="cadastroForm">
+
+                    <input
+                        type="text"
+                        id="cadUsuario"
+                        name="usuario"
+                        placeholder="Email"
+                        autocomplete="username"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        id="cadSenha"
+                        name="senha"
+                        placeholder="Senha"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        id="cadConfirmarSenha"
+                        name="confirmarSenha"
+                        placeholder="Confirmar Senha"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button type="submit" class="button primary">
+                        CADASTRAR
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
