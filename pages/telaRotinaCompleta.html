@@ -9,7 +9,9 @@
     <script src="../script/storage.js" defer></script>
     <script src="../script/header.js" defer></script>
     <script src="../script/auth.js" defer></script>
+    <script src="../script/quiz.js" defer></script>
     <script src="../script/rotina.js" defer></script>
+    <link rel="icon" type="image/png" href="../img/iconStudyFlow.png">
 </head>
 <body>
 
@@ -17,9 +19,12 @@
 
     <main class="main-content full-routine-main">
 
-        <div class="main-text full-routine-header">
-            <h1>Sua <span>Rotina</span> personalizada</h1>
-            <p>Cheque e altere sua rotina</p>
+        <div class="main-text full-routine-header full-routine-header-row">
+            <div>
+                <h1>Sua <span>Rotina</span> personalizada</h1>
+                <p>Cheque, avalie suas sessões e altere sua rotina</p>
+            </div>
+            <span class="methodology-active-pill" id="fullRoutineMethodBadge">Metodologia ativa: Pomodoro</span>
         </div>
 
         <section class="routine-matrix-card" aria-label="Grade semanal da rotina">
@@ -41,6 +46,11 @@
             </div>
         </section>
 
+        <section class="detailed-sessions-section" aria-label="Detalhamento das sessões de estudo">
+            <h3 class="detailed-sessions-title">Detalhamento das <span>sessões</span> e metas</h3>
+            <div class="detailed-sessions-list" id="fullRoutineDetailsList"></div>
+        </section>
+
         <div class="full-routine-actions">
             <a href="../index.html" class="button primary full-routine-back-btn">
                 Voltar ao início
@@ -49,13 +59,20 @@
 
     </main>
 
-    <!-- Modal para alterar ou limpar um bloco da grade -->
     <div class="slot-modal-backdrop" id="slotModal" hidden>
         <div class="slot-modal-card" role="dialog" aria-modal="true" aria-labelledby="slotModalTitle">
-            <h3 id="slotModalTitle">Alterar matéria</h3>
+            <h3 id="slotModalTitle">Detalhes e edição do bloco</h3>
             <p class="slot-modal-subtitle" id="slotModalSubtitle"></p>
 
-            <label class="slot-modal-label" for="slotSubjectSelect">Escolha uma matéria:</label>
+            <div class="slot-modal-details" id="slotModalDetails" hidden></div>
+
+            <div class="slot-modal-quiz-wrap">
+                <button type="button" class="button primary" id="slotQuizBtn">
+                    Concluir sessão & Avaliar
+                </button>
+            </div>
+
+            <label class="slot-modal-label" for="slotSubjectSelect">Alterar matéria deste horário:</label>
             <select class="slot-modal-select" id="slotSubjectSelect"></select>
 
             <div class="slot-modal-buttons">

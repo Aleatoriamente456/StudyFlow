@@ -1,19 +1,7 @@
-/**
- * rotina.js - Lógica da tela inicial (prévia da rotina) e da grade semanal completa
- */
 
-function obterRotinaGeradaIA() {
-    try {
-        const raw = localStorage.getItem("studyflow_rotina_ia");
-        return raw ? JSON.parse(raw) : null;
-    } catch (e) {
-        return null;
-    }
-}
 
 function limparRotina() {
     removerDadosRotina();
-    localStorage.removeItem("studyflow_rotina_ia");
     atualizarTelaInicial();
 }
 
@@ -52,19 +40,29 @@ function renderizarPreviewRotina(prefs) {
     const grid = document.getElementById("routinePreviewGrid");
     if (!grid || !prefs) return;
 
+    const metodologiaAtiva = obterMetodologiaAtiva();
+    const metodoBadgeEl = document.getElementById("activeMethodologyBadge");
+    if (metodoBadgeEl) {
+        metodoBadgeEl.textContent = `Metodologia: ${metodologiaAtiva}`;
+    }
+
     const rotinaIA = obterRotinaGeradaIA();
     if (rotinaIA && Array.isArray(rotinaIA.itens) && rotinaIA.itens.length > 0) {
         grid.innerHTML = "";
         rotinaIA.itens.slice(0, 3).forEach(item => {
             const descricaoComMateria = garantirMateriaNaDescricao(item.descricao, item.materia);
+            const temaTexto = item.tema || `Tópico essencial de ${item.materia}`;
 
             const card = document.createElement("div");
             card.className = "routine-item-card";
             card.title = descricaoComMateria;
 
+            const topRow = document.createElement("div");
+            topRow.className = "routine-item-top";
+
             const iconWrap = document.createElement("div");
             iconWrap.className = "routine-item-icon";
-            iconWrap.appendChild(criarIconeLivroSVG("#666"));
+            iconWrap.appendChild(criarIconeLivroSVG("#7138d4"));
 
             const info = document.createElement("div");
             info.className = "routine-item-info";
@@ -81,20 +79,40 @@ function renderizarPreviewRotina(prefs) {
             subjStrong.className = "routine-item-subject";
             subjStrong.textContent = item.materia || "";
 
-            const descSmall = document.createElement("small");
-            descSmall.style.fontSize = "11px";
-            descSmall.style.color = "#6b6878";
-            descSmall.style.marginTop = "4px";
-            descSmall.style.lineHeight = "1.35";
-            descSmall.textContent = descricaoComMateria;
-
             info.appendChild(daySpan);
             info.appendChild(timeSpan);
             info.appendChild(subjStrong);
-            info.appendChild(descSmall);
 
-            card.appendChild(iconWrap);
-            card.appendChild(info);
+            topRow.appendChild(iconWrap);
+            topRow.appendChild(info);
+
+            const themeBadge = document.createElement("div");
+            themeBadge.className = "routine-item-theme";
+            themeBadge.textContent = `Tema: ${temaTexto}`;
+
+            const descSmall = document.createElement("p");
+            descSmall.className = "routine-item-desc";
+            descSmall.textContent = descricaoComMateria;
+
+            const quizBtn = document.createElement("button");
+            quizBtn.type = "button";
+            quizBtn.className = "button secondary routine-quiz-btn";
+            quizBtn.textContent = "Concluir & Avaliar";
+            quizBtn.addEventListener("click", () => {
+                if (typeof abrirQuestionarioSessao === "function") {
+                    abrirQuestionarioSessao({
+                        materia: item.materia,
+                        tema: temaTexto,
+                        descricao: descricaoComMateria,
+                        metodologia: metodologiaAtiva
+                    });
+                }
+            });
+
+            card.appendChild(topRow);
+            card.appendChild(themeBadge);
+            card.appendChild(descSmall);
+            card.appendChild(quizBtn);
             grid.appendChild(card);
         });
         return;
@@ -131,7 +149,7 @@ function renderizarPreviewRotina(prefs) {
     const startMin = toMinutes(inicioStr);
     const endMin = toMinutes(fimStr) > startMin ? toMinutes(fimStr) : startMin + 180;
 
-    const itensPreview = [];
+    grid.innerHTML = "";
     let diaIdx = 0;
     let currentMin = startMin;
 
@@ -145,63 +163,72 @@ function renderizarPreviewRotina(prefs) {
 
         const blocoInicio = toTimeStr(currentMin);
         const blocoFim = toTimeStr(currentMin + 60);
+        const desc = `${materia}: Sessão estruturada com metodologia ${metodologiaAtiva}, alinhada às metas (${prefs.metas || "estudos gerais"}).`;
 
-        itensPreview.push({
-            dia: dias[diaIdx],
-            horario: `${blocoInicio} - ${blocoFim}`,
-            materia: materia,
-            descricao: `${materia}: Sessão de estudo focada.`
-        });
-
-        currentMin += 75;
-    }
-
-    grid.innerHTML = "";
-    itensPreview.forEach(item => {
         const card = document.createElement("div");
         card.className = "routine-item-card";
-        card.title = item.descricao;
+
+        const topRow = document.createElement("div");
+        topRow.className = "routine-item-top";
 
         const iconWrap = document.createElement("div");
         iconWrap.className = "routine-item-icon";
-        iconWrap.appendChild(criarIconeLivroSVG("#666"));
+        iconWrap.appendChild(criarIconeLivroSVG("#7138d4"));
 
         const info = document.createElement("div");
         info.className = "routine-item-info";
 
         const daySpan = document.createElement("span");
         daySpan.className = "routine-item-day";
-        daySpan.textContent = item.dia;
+        daySpan.textContent = dias[diaIdx];
 
         const timeSpan = document.createElement("span");
         timeSpan.className = "routine-item-time";
-        timeSpan.textContent = item.horario;
+        timeSpan.textContent = `${blocoInicio} - ${blocoFim}`;
 
         const subjStrong = document.createElement("strong");
         subjStrong.className = "routine-item-subject";
-        subjStrong.textContent = item.materia;
-
-        const descSmall = document.createElement("small");
-        descSmall.style.fontSize = "11px";
-        descSmall.style.color = "#6b6878";
-        descSmall.style.marginTop = "4px";
-        descSmall.style.lineHeight = "1.35";
-        descSmall.textContent = item.descricao;
+        subjStrong.textContent = materia;
 
         info.appendChild(daySpan);
         info.appendChild(timeSpan);
         info.appendChild(subjStrong);
-        info.appendChild(descSmall);
 
-        card.appendChild(iconWrap);
-        card.appendChild(info);
+        topRow.appendChild(iconWrap);
+        topRow.appendChild(info);
+
+        const descSmall = document.createElement("p");
+        descSmall.className = "routine-item-desc";
+        descSmall.textContent = desc;
+
+        const quizBtn = document.createElement("button");
+        quizBtn.type = "button";
+        quizBtn.className = "button secondary routine-quiz-btn";
+        quizBtn.textContent = "Concluir & Avaliar";
+        quizBtn.addEventListener("click", () => {
+            if (typeof abrirQuestionarioSessao === "function") {
+                abrirQuestionarioSessao({
+                    materia,
+                    tema: `Conceitos fundamentais de ${materia}`,
+                    descricao: desc,
+                    metodologia: metodologiaAtiva
+                });
+            }
+        });
+
+        card.appendChild(topRow);
+        card.appendChild(descSmall);
+        card.appendChild(quizBtn);
         grid.appendChild(card);
-    });
+
+        currentMin += 75;
+    }
 }
 
 function atualizarTelaInicial() {
     const usuario = obterDadosUsuario();
     const preferencias = obterPreferenciasSalvas();
+    const possuiRotina = temRotinaAtiva();
 
     const telaVisitante = document.getElementById("visitorScreen");
     const telaLogado = document.getElementById("loggedScreen");
@@ -225,13 +252,71 @@ function atualizarTelaInicial() {
             telaVisitante.hidden = false;
             telaVisitante.style.display = "block";
         }
-    } else if (preferencias && telaRotina) {
+    } else if (preferencias && possuiRotina && telaRotina) {
         telaRotina.hidden = false;
         telaRotina.style.display = "flex";
         renderizarPreviewRotina(preferencias);
     } else if (telaLogado) {
         telaLogado.hidden = false;
         telaLogado.style.display = "block";
+
+        const titleEl = document.getElementById("loggedCardTitle");
+        const descEl = document.getElementById("loggedCardDesc");
+        const summaryBox = document.getElementById("loggedPrefsSummary");
+        const primaryAction = document.getElementById("loggedPrimaryAction");
+        const secondaryAction = document.getElementById("loggedSecondaryAction");
+
+        if (preferencias) {
+
+            if (titleEl) {
+                titleEl.innerHTML = 'Preferências <span>definidas</span>!';
+            }
+            if (descEl) {
+                descEl.textContent = "Suas preferências já estão salvas. Agora escolha sua metodologia, matérias e gere sua rotina personalizada!";
+            }
+            if (summaryBox) {
+                const diasFmt = (preferencias.dias || [])
+                    .map(d => STUDYFLOW_CONFIG.DIAS_NOMES[d] || d)
+                    .join(", ");
+                const horarioFmt = preferencias.horario
+                    ? `${preferencias.horario.inicio} às ${preferencias.horario.fim}`
+                    : "Horário flexível";
+                summaryBox.hidden = false;
+                summaryBox.innerHTML = `
+                    <span><strong>Dias:</strong> ${escapeHTML(diasFmt)}</span>
+                    <span><strong>Horário:</strong> ${escapeHTML(horarioFmt)}</span>
+                    <span><strong>Meta:</strong> ${escapeHTML(preferencias.metas || "Estudos gerais")}</span>
+                `;
+            }
+            if (primaryAction) {
+                primaryAction.textContent = "Criar rotina";
+                primaryAction.href = "pages/telaCriarRotina.html";
+            }
+            if (secondaryAction) {
+                secondaryAction.hidden = false;
+                secondaryAction.textContent = "Editar preferências";
+                secondaryAction.href = "pages/telaPreferencias.html";
+            }
+        } else {
+
+            if (titleEl) {
+                titleEl.innerHTML = 'Sem <span>rotinas</span> ativas.';
+            }
+            if (descEl) {
+                descEl.textContent = "Defina suas preferências primeiro para criar suas rotinas personalizadas!";
+            }
+            if (summaryBox) {
+                summaryBox.hidden = true;
+                summaryBox.innerHTML = "";
+            }
+            if (primaryAction) {
+                primaryAction.textContent = "Definir preferências";
+                primaryAction.href = "pages/telaPreferencias.html";
+            }
+            if (secondaryAction) {
+                secondaryAction.hidden = true;
+            }
+        }
     }
 
     if (typeof atualizarDadosPerfil === "function") {
@@ -251,7 +336,13 @@ function inicializarTelaRotinaCompleta() {
         STORAGE_KEYS
     } = STUDYFLOW_CONFIG;
 
-    const ROWS_COUNT = 4;
+    const DEFAULT_ROWS_COUNT = 4;
+    const metodologiaAtiva = obterMetodologiaAtiva();
+
+    const fullMethodBadge = document.getElementById("fullRoutineMethodBadge");
+    if (fullMethodBadge) {
+        fullMethodBadge.textContent = `Metodologia ativa: ${metodologiaAtiva}`;
+    }
 
     function abbreviateSubject(name) {
         if (!name) return "";
@@ -260,7 +351,7 @@ function inicializarTelaRotinaCompleta() {
     }
 
     function buildInitialMatrix(prefs) {
-        const matrix = Array.from({ length: ROWS_COUNT }, () =>
+        const matrix = Array.from({ length: DEFAULT_ROWS_COUNT }, () =>
             Array.from({ length: DIAS_ORDEM.length }, () => null)
         );
 
@@ -270,15 +361,28 @@ function inicializarTelaRotinaCompleta() {
                 const diaChave = (item.dia || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 const colIdx = DIAS_ORDEM.indexOf(diaChave);
                 if (colIdx !== -1) {
-                    for (let r = 0; r < ROWS_COUNT; r++) {
+                    let colocado = false;
+                    for (let r = 0; r < matrix.length; r++) {
                         if (!matrix[r][colIdx]) {
                             matrix[r][colIdx] = {
                                 materia: item.materia,
+                                tema: item.tema || `Tópico principal de ${item.materia}`,
                                 horario: item.horario || "",
                                 descricao: garantirMateriaNaDescricao(item.descricao, item.materia)
                             };
+                            colocado = true;
                             break;
                         }
+                    }
+                    if (!colocado) {
+                        const novaLinha = Array.from({ length: DIAS_ORDEM.length }, () => null);
+                        novaLinha[colIdx] = {
+                            materia: item.materia,
+                            tema: item.tema || `Tópico principal de ${item.materia}`,
+                            horario: item.horario || "",
+                            descricao: garantirMateriaNaDescricao(item.descricao, item.materia)
+                        };
+                        matrix.push(novaLinha);
                     }
                 }
             });
@@ -303,15 +407,16 @@ function inicializarTelaRotinaCompleta() {
         ];
 
         let subjIdx = 0;
-        for (let r = 0; r < ROWS_COUNT; r++) {
+        for (let r = 0; r < matrix.length; r++) {
             const cols = patternRows[r] || [];
             for (let c = 0; c < cols.length; c++) {
                 const colIdx = cols[c];
                 const subj = subjects[subjIdx % subjects.length];
                 matrix[r][colIdx] = {
                     materia: subj,
+                    tema: `Conceitos essenciais de ${subj}`,
                     horario: "",
-                    descricao: `${subj}: Sessão de estudo programada.`
+                    descricao: `${subj}: Sessão de estudo programada com metodologia ${metodologiaAtiva}.`
                 };
                 subjIdx++;
             }
@@ -320,15 +425,48 @@ function inicializarTelaRotinaCompleta() {
         return matrix;
     }
 
-    function saveRoutineMatrix(matrix, signature) {
-        let sig = signature;
-        if (!sig) {
-            try {
-                sig = localStorage.getItem(STORAGE_KEYS.PREFERENCIAS) || "{}";
-            } catch (e) {
-                sig = "{}";
+    function construirAssinaturaRotina(prefs) {
+        const rotinaIA = obterRotinaGeradaIA();
+        const resumoIA = rotinaIA ? {
+            metodologia: rotinaIA.metodologia || "",
+            estrategia: rotinaIA.estrategia || "",
+            total: Array.isArray(rotinaIA.itens) ? rotinaIA.itens.length : 0
+        } : null;
+        return JSON.stringify({ prefs: prefs || {}, ia: resumoIA });
+    }
+
+    function sincronizarRotinaIAComMatriz(matrix) {
+        const rotinaIA = obterRotinaGeradaIA();
+        if (!rotinaIA || !Array.isArray(rotinaIA.itens)) return;
+
+        const novosItens = [];
+        for (let c = 0; c < DIAS_ORDEM.length; c++) {
+            const diaChave = DIAS_ORDEM[c];
+            for (let r = 0; r < matrix.length; r++) {
+                const cell = matrix[r][c];
+                if (cell && typeof cell === "object" && cell.materia) {
+                    novosItens.push({
+                        dia: diaChave,
+                        dia_nome: STUDYFLOW_CONFIG.DIAS_NOMES[diaChave] || diaChave,
+                        horario: cell.horario || "",
+                        materia: cell.materia,
+                        tema: cell.tema || `Tópico principal de ${cell.materia}`,
+                        descricao: garantirMateriaNaDescricao(cell.descricao, cell.materia),
+                        metodologia: metodologiaAtiva
+                    });
+                }
             }
         }
+        rotinaIA.itens = novosItens;
+        localStorage.setItem(STORAGE_KEYS.ROTINA_IA, JSON.stringify(rotinaIA));
+    }
+
+    function saveRoutineMatrix(matrix, signature, sincronizarIA = false) {
+        if (sincronizarIA) {
+            sincronizarRotinaIAComMatriz(matrix);
+        }
+        const prefs = obterPreferenciasSalvas();
+        const sig = signature || construirAssinaturaRotina(prefs);
         localStorage.setItem(STORAGE_KEYS.ROTINA_COMPLETA, JSON.stringify({
             signature: sig,
             matrix: matrix
@@ -337,7 +475,7 @@ function inicializarTelaRotinaCompleta() {
 
     function loadRoutineMatrix() {
         const prefs = obterPreferenciasSalvas();
-        const prefsSignature = JSON.stringify(prefs || {});
+        const prefsSignature = construirAssinaturaRotina(prefs);
 
         try {
             const savedRaw = localStorage.getItem(STORAGE_KEYS.ROTINA_COMPLETA);
@@ -348,7 +486,7 @@ function inicializarTelaRotinaCompleta() {
                 }
             }
         } catch (e) {
-            // Gera nova matriz se o armazenamento estiver corrompido
+
         }
 
         const freshMatrix = buildInitialMatrix(prefs);
@@ -361,15 +499,72 @@ function inicializarTelaRotinaCompleta() {
 
     const modal = document.getElementById("slotModal");
     const modalSubtitle = document.getElementById("slotModalSubtitle");
+    const modalDetails = document.getElementById("slotModalDetails");
     const modalSelect = document.getElementById("slotSubjectSelect");
+    const quizModalBtn = document.getElementById("slotQuizBtn");
     const clearBtn = document.getElementById("slotClearBtn");
     const cancelBtn = document.getElementById("slotCancelBtn");
     const saveBtn = document.getElementById("slotSaveBtn");
 
+    function renderDetailedSessionsList() {
+        const listContainer = document.getElementById("fullRoutineDetailsList");
+        if (!listContainer) return;
+
+        listContainer.innerHTML = "";
+        let count = 0;
+
+        for (let c = 0; c < DIAS_ORDEM.length; c++) {
+            for (let r = 0; r < currentMatrix.length; r++) {
+                const cell = currentMatrix[r][c];
+                if (!cell || typeof cell !== "object" || !cell.materia) continue;
+                count++;
+
+                const diaNome = STUDYFLOW_CONFIG.DIAS_NOMES[DIAS_ORDEM[c]] || DIAS_SIGLAS[c];
+                const temaTxt = cell.tema || `Tópico principal de ${cell.materia}`;
+                const descTxt = garantirMateriaNaDescricao(cell.descricao, cell.materia);
+
+                const itemCard = document.createElement("article");
+                itemCard.className = "detailed-session-card";
+                itemCard.innerHTML = `
+                    <div class="detailed-session-head">
+                        <div>
+                            <span class="detailed-session-day">${escapeHTML(diaNome)}${cell.horario ? ` • ${escapeHTML(cell.horario)}` : ""}</span>
+                            <h4>${escapeHTML(cell.materia)} — <span>${escapeHTML(temaTxt)}</span></h4>
+                        </div>
+                        <button type="button" class="button secondary detailed-quiz-trigger">
+                            Concluir & Avaliar
+                        </button>
+                    </div>
+                    <p class="detailed-session-body">${escapeHTML(descTxt)}</p>
+                `;
+
+                const triggerBtn = itemCard.querySelector(".detailed-quiz-trigger");
+                if (triggerBtn) {
+                    triggerBtn.addEventListener("click", () => {
+                        if (typeof abrirQuestionarioSessao === "function") {
+                            abrirQuestionarioSessao({
+                                materia: cell.materia,
+                                tema: temaTxt,
+                                descricao: descTxt,
+                                metodologia: metodologiaAtiva
+                            });
+                        }
+                    });
+                }
+
+                listContainer.appendChild(itemCard);
+            }
+        }
+
+        if (count === 0) {
+            listContainer.innerHTML = '<p class="description">Nenhuma sessão ativa na grade.</p>';
+        }
+    }
+
     function renderTable() {
         tbody.innerHTML = "";
 
-        for (let r = 0; r < ROWS_COUNT; r++) {
+        for (let r = 0; r < currentMatrix.length; r++) {
             const tr = document.createElement("tr");
 
             for (let c = 0; c < DIAS_ORDEM.length; c++) {
@@ -389,7 +584,9 @@ function inicializarTelaRotinaCompleta() {
                         ? `${cell.horario} — `
                         : "";
 
-                    btn.title = `${subject} (${DIAS_SIGLAS[c]})\n${horarioTexto}${descFormatada}\nClique para alterar`;
+                    btn.title = `${subject} (${DIAS_SIGLAS[c]})
+${horarioTexto}${descFormatada}
+Clique para detalhes, avaliar ou alterar`;
 
                     const iconSpan = document.createElement("span");
                     iconSpan.className = "routine-slot-icon";
@@ -418,20 +615,36 @@ function inicializarTelaRotinaCompleta() {
 
             tbody.appendChild(tr);
         }
+
+        renderDetailedSessionsList();
     }
 
     function openSlotModal(r, c) {
         if (!modal) return;
         editingCell = { r, c };
         const cell = currentMatrix[r][c];
+        const hasSubject = Boolean(cell && (typeof cell === "string" || cell.materia));
         const currentVal = (typeof cell === "object" && cell !== null ? cell.materia : cell) || MATERIAS_DISPONIVEIS[0];
 
         if (modalSubtitle) {
-            const descExtra = (typeof cell === "object" && cell !== null && cell.descricao)
-                ? ` — ${garantirMateriaNaDescricao(cell.descricao, currentVal)}`
-                : "";
-            modalSubtitle.textContent = `Dia: ${DIAS_SIGLAS[c]} • Bloco ${r + 1}${descExtra}`;
+            const horarioInfo = (typeof cell === "object" && cell !== null && cell.horario) ? ` • ${cell.horario}` : "";
+            modalSubtitle.textContent = `Dia: ${DIAS_SIGLAS[c]} • Bloco ${r + 1}${horarioInfo}`;
         }
+
+        if (modalDetails) {
+            if (typeof cell === "object" && cell !== null && cell.descricao) {
+                modalDetails.hidden = false;
+                modalDetails.textContent = garantirMateriaNaDescricao(cell.descricao, currentVal);
+            } else {
+                modalDetails.hidden = true;
+                modalDetails.textContent = "";
+            }
+        }
+
+        if (quizModalBtn) {
+            quizModalBtn.hidden = !hasSubject;
+        }
+
         if (modalSelect) {
             modalSelect.innerHTML = "";
             MATERIAS_DISPONIVEIS.forEach(subj => {
@@ -451,6 +664,25 @@ function inicializarTelaRotinaCompleta() {
         if (modal) modal.hidden = true;
     }
 
+    if (quizModalBtn) {
+        quizModalBtn.addEventListener("click", () => {
+            if (!editingCell) return;
+            const cell = currentMatrix[editingCell.r][editingCell.c];
+            const materia = (typeof cell === "object" && cell !== null) ? cell.materia : cell;
+            const tema = (typeof cell === "object" && cell !== null && cell.tema) ? cell.tema : `Tópico de ${materia}`;
+            const descricao = (typeof cell === "object" && cell !== null && cell.descricao) ? cell.descricao : "";
+            closeSlotModal();
+            if (typeof abrirQuestionarioSessao === "function") {
+                abrirQuestionarioSessao({
+                    materia,
+                    tema,
+                    descricao,
+                    metodologia: metodologiaAtiva
+                });
+            }
+        });
+    }
+
     if (saveBtn) {
         saveBtn.addEventListener("click", () => {
             if (!editingCell || !modalSelect) return;
@@ -467,17 +699,19 @@ function inicializarTelaRotinaCompleta() {
                 currentMatrix[editingCell.r][editingCell.c] = {
                     ...celulaAtual,
                     materia: novaMateria,
+                    tema: `Tópico principal de ${novaMateria}`,
                     descricao: novaDesc
                 };
             } else {
                 currentMatrix[editingCell.r][editingCell.c] = {
                     materia: novaMateria,
+                    tema: `Tópico principal de ${novaMateria}`,
                     horario: "",
-                    descricao: `${novaMateria}: Sessão de estudo adicionada manualmente.`
+                    descricao: `${novaMateria}: Sessão de estudo adicionada manualmente com metodologia ${metodologiaAtiva}.`
                 };
             }
 
-            saveRoutineMatrix(currentMatrix);
+            saveRoutineMatrix(currentMatrix, null, true);
             renderTable();
             closeSlotModal();
         });
@@ -487,7 +721,7 @@ function inicializarTelaRotinaCompleta() {
         clearBtn.addEventListener("click", () => {
             if (!editingCell) return;
             currentMatrix[editingCell.r][editingCell.c] = null;
-            saveRoutineMatrix(currentMatrix);
+            saveRoutineMatrix(currentMatrix, null, true);
             renderTable();
             closeSlotModal();
         });
@@ -500,6 +734,9 @@ function inicializarTelaRotinaCompleta() {
     if (modal) {
         modal.addEventListener("click", (e) => {
             if (e.target === modal) closeSlotModal();
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !modal.hidden) closeSlotModal();
         });
     }
 

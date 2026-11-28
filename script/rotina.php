@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "conexao.php";
+garantirEstruturaBanco($pdo);
 
 $metodo = $_SERVER["REQUEST_METHOD"];
 
@@ -50,7 +51,7 @@ if ($metodo === "POST") {
 
         $pdo->commit();
         echo json_encode(["sucesso" => true, "id_rotina" => $idRotina]);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $pdo->rollBack();
         http_response_code(500);
         echo json_encode(["sucesso" => false, "erro" => "Erro ao salvar rotina no banco."]);
@@ -61,9 +62,10 @@ if ($metodo === "GET") {
     $idUsuario = (int)($_SESSION["usuario_id"] ?? $_GET["usuario_id"] ?? 0);
 
     $stmt = $pdo->prepare("
-        SELECT r.idrotina, p.diasdisponiveis, p.horasdisponiveis, p.metas
+        SELECT r.idrotina, p.diasdisponiveis, p.horasdisponiveis, p.metas, m.nome AS metodologia_nome
         FROM rotina r
         INNER JOIN preferencias p ON r.preferencia = p.idpreferencias
+        LEFT JOIN metodologia m ON r.metodologia = m.idmetodologia
         WHERE r.usuario_id = ?
         ORDER BY r.idrotina DESC
         LIMIT 1

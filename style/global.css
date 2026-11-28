@@ -1,6 +1,4 @@
-/* =========================================================
-   ESTILOS GLOBAIS COMPARTILHADOS - STUDYFLOW
-   ========================================================= */
+
 
 :root {
     --color-primary: #7138d4;
@@ -30,8 +28,6 @@ body {
     min-height: 100vh;
     display: flex;
 }
-
-/* Botões base compartilhados */
 
 .buttons {
     display: flex;

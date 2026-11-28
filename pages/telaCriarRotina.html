@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Rotina - StudyFlow</title>
+    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../style/styleMain.css">
+    <script src="../script/storage.js" defer></script>
+    <script src="../script/header.js" defer></script>
+    <script src="../script/auth.js" defer></script>
+    <script src="../script/criar_rotina.js" defer></script>
+    <link rel="icon" type="image/png" href="../img/iconStudyFlow.png">
+</head>
+<body>
+
+    <header class="header" id="appHeader"></header>
+
+    <main class="main-content split-layout">
+
+        <section class="left-column">
+            <div class="main-text">
+                <h1 id="heading">Criando sua rotina <br><span>personalizada</span></h1>
+                <p id="description">Escolha a metodologia de estudos que guiará suas sessões:</p>
+            </div>
+        </section>
+
+        <section class="right-column">
+
+            <div class="card" id="create-routine-card">
+
+                <div class="screen active">
+                    <h3 class="card-subtitle">Selecione uma <span>metodologia</span> de estudos</h3>
+
+                    <div class="methods-list">
+                        <label class="option-pill method-pill" data-description="Leitura ativa em cinco etapas: Explorar, Questionar, Ler, Recitar e Revisar o conteúdo.">
+                            <input type="radio" name="metodo" value="SQ3R">
+                            <span>SQ3R</span>
+                        </label>
+                        <label class="option-pill method-pill" data-description="Consolide o aprendizado explicando o assunto em voz alta com palavras simples.">
+                            <input type="radio" name="metodo" value="Feynman">
+                            <span>Feynman</span>
+                        </label>
+                        <label class="option-pill method-pill" data-description="Ciclos de estudo focado de 25 minutos intercalados com pausas curtas de 5 minutos.">
+                            <input type="radio" name="metodo" value="Pomodoro">
+                            <span>Pomodoro</span>
+                        </label>
+                    </div>
+                    <div id="popup"></div>
+                </div>
+
+                <div class="screen">
+                    <div class="subjects-grid" id="subjects-grid"></div>
+                </div>
+
+                <div class="screen">
+                    <input id="file-input" type="file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" multiple hidden>
+                    <div class="files-list" id="files-list"></div>
+                </div>
+
+            </div>
+
+            <div class="actions-bar">
+                <button class="button secondary" id="add-files" type="button" hidden>
+                    + Adicionar material
+                </button>
+
+                <div class="nav-buttons">
+                    <button class="button secondary" id="back" type="button" hidden>
+                        ← Voltar
+                    </button>
+                    <button class="button primary" id="next" type="button">
+                        Avançar →
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-logo">
+            <img src="../img/LogoStudyFlow.png" alt="Logo do StudyFlow">
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,38 +1,38 @@
-/**
- * header.js - Componente reutilizável de cabeçalho e menu dropdown de perfil
- */
+
 
 function renderizarCabecalhoCompartilhado() {
     const headerContainer = document.getElementById("appHeader");
     if (!headerContainer) return;
 
     const basePath = getBasePath();
-    const isTelaPreferencias = getCurrentPageName() === "telapreferencias.html";
+    const paginaAtual = getCurrentPageName();
+    const isIndex = paginaAtual === "index.html" || paginaAtual === "";
 
-    const contextualLinkHref = isTelaPreferencias
-        ? `${basePath}index.html`
-        : `${basePath}pages/telaPreferencias.html`;
+    const contextualLinkHref = isIndex
+        ? `${basePath}pages/telaPreferencias.html`
+        : `${basePath}index.html`;
 
-    const contextualLinkIcon = isTelaPreferencias
+    const contextualLinkIcon = isIndex
         ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-               <polyline points="9 22 9 12 15 12 15 22"></polyline>
-           </svg>`
-        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                <circle cx="12" cy="12" r="3"></circle>
                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+           </svg>`
+        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+               <polyline points="9 22 9 12 15 12 15 22"></polyline>
            </svg>`;
 
-    const contextualLinkLabel = isTelaPreferencias
-        ? "Voltar para Início"
-        : "Preferências de Estudo";
+    const contextualLinkLabel = isIndex
+        ? "Preferências de Estudo"
+        : "Voltar para Início";
 
     headerContainer.innerHTML = `
         <div class="header-left">
-
-            <h2 class="logo-text">
-                Study<span>Flow</span>
-            </h2>
+            <a href="${basePath}index.html" style="text-decoration: none; color: inherit;">
+                <h2 class="logo-text">
+                    Study<span>Flow</span>
+                </h2>
+            </a>
         </div>
 
         <div class="profile-wrapper">
@@ -45,7 +45,6 @@ function renderizarCabecalhoCompartilhado() {
                         stroke="white" stroke-width="1.7"
                         stroke-linecap="round"/>
                 </svg>
-                <span class="profile-online-badge" id="profileOnlineBadge" hidden></span>
             </button>
 
             <div class="profile-dropdown" id="profileDropdown" hidden>
@@ -65,21 +64,57 @@ function renderizarCabecalhoCompartilhado() {
 
                     <div class="profile-details-list">
                         <div class="profile-detail-row">
-                            <span class="profile-detail-label">Status:</span>
-                            <span class="profile-status-online">
-                                <span class="profile-status-dot"></span> Online
-                            </span>
-                        </div>
-                        <div class="profile-detail-row">
                             <span class="profile-detail-label">Preferências:</span>
                             <span class="profile-detail-value" id="profilePrefStatus">Pendente</span>
                         </div>
                     </div>
 
+                    <div class="profile-divider"></div>
+
+                    <div class="profile-metrics-box">
+                        <div class="profile-metrics-header">
+                            <span>Média por Metodologia</span>
+                        </div>
+                        <div class="profile-metrics-list" id="profileMethodologyMetrics">
+                            <div class="profile-metric-row">
+                                <span>Pomodoro</span>
+                                <strong id="metricPomodoro">Sem notas</strong>
+                            </div>
+                            <div class="profile-metric-row">
+                                <span>Feynman</span>
+                                <strong id="metricFeynman">Sem notas</strong>
+                            </div>
+                            <div class="profile-metric-row">
+                                <span>SQ3R</span>
+                                <strong id="metricSQ3R">Sem notas</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-divider"></div>
+
                     <div class="profile-actions">
                         <a href="${contextualLinkHref}" class="profile-link-btn">
                             ${contextualLinkIcon}
                             ${contextualLinkLabel}
+                        </a>
+
+                        <a href="${basePath}pages/telaRotinaCompleta.html" class="profile-link-btn" id="profileFullRoutineLink" hidden>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Minha Rotina Completa
+                        </a>
+
+                        <a href="${basePath}pages/telaCriarRotina.html" class="profile-link-btn" id="profileCreateRoutineLink">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Criar Nova Rotina
                         </a>
 
                         <button type="button" class="logout-btn" id="btnLogoutDropdown">
@@ -132,17 +167,13 @@ function atualizarDadosPerfil() {
     const emailEl = document.getElementById("profileUserEmail");
     const avatarInitialsEl = document.getElementById("profileAvatarInitials");
     const mainUserEl = document.getElementById("mainUserName");
-    const badgeOnlineEl = document.getElementById("profileOnlineBadge");
     const prefStatusEl = document.getElementById("profilePrefStatus");
+    const createLinkEl = document.getElementById("profileCreateRoutineLink");
 
     if (nomeEl) nomeEl.textContent = usuario.nome;
     if (emailEl) emailEl.textContent = usuario.email;
     if (avatarInitialsEl) avatarInitialsEl.textContent = usuario.iniciais;
-    if (mainUserEl) mainUserEl.textContent = usuario.nome;
-
-    if (badgeOnlineEl) {
-        badgeOnlineEl.hidden = !usuario.logado;
-    }
+    if (mainUserEl) mainUserEl.textContent = usuario.nome;  
 
     if (prefStatusEl) {
         if (preferencias) {
@@ -153,6 +184,32 @@ function atualizarDadosPerfil() {
             prefStatusEl.style.color = "#f59e0b";
         }
     }
+
+    const fullRoutineLinkEl = document.getElementById("profileFullRoutineLink");
+    if (fullRoutineLinkEl) {
+        const possuiRotina = typeof temRotinaAtiva === "function" && temRotinaAtiva();
+        fullRoutineLinkEl.hidden = !possuiRotina || getCurrentPageName() === "telarotinacompleta.html";
+    }
+
+    if (createLinkEl) {
+        createLinkEl.hidden = !preferencias || getCurrentPageName() === "telacriarrotina.html";
+    }
+
+    const medias = obterMediasPorMetodologia();
+    const formatarMetrica = (info) => {
+        if (!info || info.total === 0 || info.media === null) {
+            return "Sem notas";
+        }
+        return `${Number(info.media).toFixed(1)} / 5 pts (${info.total})`;
+    };
+
+    const elPom = document.getElementById("metricPomodoro");
+    const elFey = document.getElementById("metricFeynman");
+    const elSq3 = document.getElementById("metricSQ3R");
+
+    if (elPom) elPom.textContent = formatarMetrica(medias.Pomodoro);
+    if (elFey) elFey.textContent = formatarMetrica(medias.Feynman);
+    if (elSq3) elSq3.textContent = formatarMetrica(medias.SQ3R);
 
     const loggedContent = document.getElementById("profileLoggedContent");
     const visitorContent = document.getElementById("profileVisitorContent");

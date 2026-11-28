@@ -1,8 +1,6 @@
-/**
- * auth.js - Autenticação, proteção de rotas (Auth Guard) e controle de sessão
- */
 
-const PAGINAS_PROTEGIDAS = ["telapreferencias.html", "telarotinacompleta.html"];
+
+const PAGINAS_PROTEGIDAS = ["telapreferencias.html", "telacriarrotina.html", "telarotinacompleta.html"];
 const PAGINAS_APENAS_VISITANTE = ["telalogin.html", "telacadastro.html"];
 
 function aplicarAuthGuard() {
@@ -31,6 +29,26 @@ function validarFormatoEmailOuUsuario(valor) {
     return true;
 }
 
+async function sincronizarAvaliacoesUsuario() {
+    const usuario = obterDadosUsuario();
+    const usuarioId = localStorage.getItem("usuarioId");
+    if (!usuario.logado || !usuarioId) return;
+
+    try {
+        const resp = await fetch(`${getBasePath()}script/avaliacao.php?usuario_id=${encodeURIComponent(usuarioId)}`);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (data && data.sucesso && data.medias_metodologia) {
+            salvarMediasServidor(data.medias_metodologia);
+            if (typeof atualizarDadosPerfil === "function") {
+                atualizarDadosPerfil();
+            }
+        }
+    } catch (e) {
+
+    }
+}
+
 async function realizarLogin(event) {
     if (event) event.preventDefault();
 
@@ -53,12 +71,16 @@ async function realizarLogin(event) {
             body: JSON.stringify({ email: emailFormatado, senha: senhaValor })
         });
 
-        const resultado = await resposta.json();
+        const resultado = await lerRespostaJsonSegura(resposta);
         if (!resposta.ok || !resultado.sucesso) {
             alert(resultado.erro || "Erro ao realizar login.");
             return;
         }
 
+        const idAnterior = localStorage.getItem("usuarioId");
+        if (idAnterior && String(idAnterior) !== String(resultado.usuario.id)) {
+            encerrarSessaoUsuario();
+        }
         localStorage.setItem("usuarioId", resultado.usuario.id);
         salvarSessaoUsuario(resultado.usuario.nome, resultado.usuario.email);
         window.location.href = `${getBasePath()}index.html`;
@@ -105,12 +127,16 @@ async function realizarCadastro(event) {
             })
         });
 
-        const resultado = await resposta.json();
+        const resultado = await lerRespostaJsonSegura(resposta);
         if (!resposta.ok || !resultado.sucesso) {
             alert(resultado.erro || "Erro ao realizar cadastro.");
             return;
         }
 
+        const idAnterior = localStorage.getItem("usuarioId");
+        if (idAnterior && String(idAnterior) !== String(resultado.usuario.id)) {
+            encerrarSessaoUsuario();
+        }
         localStorage.setItem("usuarioId", resultado.usuario.id);
         salvarSessaoUsuario(resultado.usuario.nome, resultado.usuario.email);
         window.location.href = `${getBasePath()}index.html`;
@@ -139,6 +165,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if (typeof inicializarCabecalho === "function") {
         inicializarCabecalho();
     }
+
+    sincronizarAvaliacoesUsuario();
 
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
