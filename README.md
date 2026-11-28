@@ -28,11 +28,17 @@ Inteligência Artificial: Google Gemini API
 
 studyFlow/
 ├── banco/
+
 │   └── studyflow_atualizado.sql   # Script de criação das tabelas do MySQL
+
 ├── img/                           # Logotipos e ícones da aplicação
+
 ├── pages/                         # Telas internas (login, cadastro, preferências, rotina)
+
 ├── script/                        # Lógica front-end (.js) e endpoints back-end (.php)
+
 ├── style/                         # Folhas de estilo CSS
+
 └── index.html                     # Página inicial
 
 
